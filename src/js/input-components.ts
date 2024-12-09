@@ -64,7 +64,11 @@ export function assignComponent(element: HTMLElement): void {
 
     console.log(`Calculated result: ${result}`);
 
-    const resultOutputs = element.querySelectorAll('output.app-elem-result');
+    const resultOutputs =
+      container
+        .closest('.app-cmp-section')
+        ?.querySelectorAll('output.app-elem-result') || [];
+
     if (resultOutputs.length === 0) {
       console.error('No output elements found for displaying the result.');
       return;
