@@ -49,15 +49,31 @@ export function assignComponent(element: HTMLElement): void {
       ...container.querySelectorAll('input[type="number"].app-elem-input'),
     ] as HTMLInputElement[];
 
-    const result = inputs.reduce(
-      (sum, element) => sum + (element?.valueAsNumber || 0),
-      0,
-    );
+    console.log(`Found ${inputs.length} input(s) for calculation.`);
+
+    if (inputs.length === 0) {
+      console.warn('No input elements found for calculation.');
+      return;
+    }
+
+    const result = inputs.reduce((sum, element) => {
+      const value = element.valueAsNumber;
+      console.log(`Processing input value: ${value}`);
+      return sum + (isNaN(value) ? 0 : value); // Default to 0 if value is invalid
+    }, 0);
+
+    console.log(`Calculated result: ${result}`);
 
     const resultOutputs = element.querySelectorAll('output.app-elem-result');
+    if (resultOutputs.length === 0) {
+      console.error('No output elements found for displaying the result.');
+      return;
+    }
+
     resultOutputs.forEach((output) => {
       if (output instanceof HTMLOutputElement) {
-        output.value = result.toLocaleString();
+        console.log(`Setting result in output: ${result}`);
+        output.value = result.toLocaleString(); // Display result as localized string
       }
     });
   };
@@ -99,5 +115,5 @@ export function assignComponent(element: HTMLElement): void {
   });
 
   // Add initial input
-  appendInputComponent();
+  appendInputComponent(); // Add the first input and initialize
 }
