@@ -59,10 +59,6 @@ export function assignSectionComponent(globalContainer) {
         addSectionButton.addEventListener('click', addSection);
         addSectionButton.eventListeners = [addSection];
     }
-    // Add an initial section if the container is empty
-    if (globalContainer.children.length === 0) {
-        addSection();
-    }
     // Add event delegation to the global container for remove section
     globalContainer.addEventListener('click', (event) => {
         const removeButton = event.target.closest('.app-cmd-remove-section');
@@ -78,6 +74,12 @@ export function assignSectionComponent(globalContainer) {
             }
         }
     });
+    // Check if there are any existing sections
+    const existingSections = globalContainer.querySelectorAll('.app-cmp-section');
+    // If no sections exist, add an initial section
+    if (existingSections.length === 0) {
+        addSection();
+    }
 }
 // Ensure the function is called when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
