@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const inputComponent = [
     ...document.querySelectorAll<HTMLInputElement>(
-      'input[tpe="number"].app-elem-input',
+      'input[type="number"].app-elem-input',
     ),
   ];
   const computerResult = () => {
