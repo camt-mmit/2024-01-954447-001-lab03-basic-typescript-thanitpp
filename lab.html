@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="./css/material.css" />
+    <link rel="stylesheet" href="./css/dom.css" />
+    <script type="module" src="./js/dom-assignment.js"></script>
+  </head>
+  <body>
+    <!-- ปุ่มสำหรับเพิ่ม Section -->
+    <button type="button" class="app-cmd-add-section">Add Section</button>
+
+    <!-- Container สำหรับ Section ทั้งหมด -->
+    <div class="app-sections-list">
+      <!-- Template ของแต่ละ Section -->
+      <template class="app-tmpl-section">
+        <section class="app-cmp-section">
+          <div>
+            <span class="section-number">Section 1</span>
+          </div>
+          <div>
+            <button
+              type="button"
+              class="app-cl-cmd app-cmd-add-input app-cl-primary"
+            >
+              <i class="material-symbols-outlined">add</i> Add Input
+            </button>
+          </div>
+
+          <div class="app-cmp-inputs-list">
+            <template class="app-tmpl-input">
+              <div class="app-cmp-input">
+                <label>
+                  <b class="app-elem-title"
+                    >Number <span class="app-elem-title-no"></span
+                  ></b>
+                  <input type="number" value="0" class="app-elem-input" />
+                </label>
+                <button
+                  type="button"
+                  class="app-cl-cmd app-cmd-remove-input app-cl-warn"
+                >
+                  X
+                </button>
+              </div>
+            </template>
+          </div>
+
+          <div>
+            <label>
+              <b>Result</b>
+              <output class="app-elem-result">0</output>
+            </label>
+          </div>
+
+          <button
+            type="button"
+            class="app-cl-cmd app-cmd-remove-section app-cl-warn"
+          >
+            Remove Section
+          </button>
+        </section>
+      </template>
+    </div>
+  </body>
+</html>
