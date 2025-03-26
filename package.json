@@ -4,14 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/js": "^9.16.0",
+    "@eslint/js": "^9.23.0",
+    "@types/express": "^5.0.1",
     "concurrently": "^9.1.0",
     "copy-and-watch": "^0.1.8",
-    "eslint": "^9.16.0",
-    "globals": "^15.13.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
     "prettier": "^3.4.2",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.17.0"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.28.0"
   },
   "scripts": {
     "watch-file": "copy-and-watch --watch src/**/*.{html,css} dist/",
@@ -20,5 +22,10 @@
     "init-target": "copy-and-watch --clean src/**/*.{html,css} dist/",
     "lint": "prettier --check src/**/*ts && eslint src/**/*.ts",
     "build": "yarn run lint && yarn run init-target && tsc"
-  }
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "repository": "https://github.com/camt-mmit/2024-01-954447-001-lab03-basic-typescript-thanitpp.git",
+  "author": "p <kaook46@gmail.com>"
 }
