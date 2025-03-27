@@ -24,7 +24,8 @@
     "build": "yarn run lint && yarn run init-target && tsc"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "http-server": "^14.1.1"
   },
   "repository": "https://github.com/camt-mmit/2024-01-954447-001-lab03-basic-typescript-thanitpp.git",
   "author": "p <kaook46@gmail.com>"

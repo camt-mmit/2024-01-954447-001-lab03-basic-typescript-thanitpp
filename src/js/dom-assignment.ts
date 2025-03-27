@@ -1,95 +1,102 @@
-import { assignComponent as assignInputComponent } from './input-components.js';
+import { assignComponent as assignInputComponent } from './input-components';
 
-function createComponent(template: HTMLTemplateElement): HTMLElement {
-  const clonedContent = template.content.cloneNode(true) as DocumentFragment;
-  return clonedContent.firstElementChild as HTMLElement;
+// Original: return template.content.cloneNode(true).firstElementChild;
+function createComponent(template: HTMLTemplateElement): Element | null {
+  return (template.content.cloneNode(true) as Element).firstElementChild;
 }
 
 export function assignSectionComponent(globalContainer: HTMLElement): void {
-  const sectionTemplate = document.querySelector<HTMLTemplateElement>(
+  const sectionTemplate = document.querySelector(
     'template.app-tmpl-section',
-  );
+  ) as HTMLTemplateElement | null;
   if (!sectionTemplate) {
     console.error('Section template not found');
     return;
   }
 
   const updateSectionNumbersAndButtons = (): void => {
-    const sections = Array.from(
-      globalContainer.querySelectorAll<HTMLElement>('.app-cmp-section'),
-    );
-    sections.forEach((section, index) => {
-      const sectionNumber =
-        section.querySelector<HTMLElement>('.section-number');
-      if (sectionNumber) {
-        sectionNumber.textContent = `Section ${index + 1}`;
-      } else {
-        console.warn('Section number element not found in section', section);
+    const sections = [
+      ...globalContainer.querySelectorAll('.app-cmp-section'),
+    ] as HTMLElement[];
+    sections.forEach((section: HTMLElement, index: number) => {
+      const sectionNumberElement = section.querySelector(
+        '.section-number',
+      ) as HTMLElement | null;
+      if (sectionNumberElement) {
+        sectionNumberElement.textContent = `Section ${index + 1}`;
       }
 
-      const removeButton = section.querySelector<HTMLButtonElement>(
+      const removeButton = section.querySelector(
         '.app-cmd-remove-section',
-      );
+      ) as HTMLButtonElement | null;
       if (removeButton) {
         removeButton.disabled = sections.length === 1;
-      } else {
-        console.warn('Remove button not found in section', section);
       }
     });
   };
 
   const addSection = (): void => {
-    const sectionComponent = createComponent(sectionTemplate);
-    assignInputComponent(sectionComponent);
+    const sectionComponent = createComponent(sectionTemplate) as HTMLElement;
 
-    sectionComponent.addEventListener('click', (event) => {
-      const removeButton = (event.target as HTMLElement).closest(
+    sectionComponent.addEventListener('click', (event: Event) => {
+      const removeButton = (event.target as Element).closest(
         '.app-cmd-remove-section',
-      );
-      if (
-        removeButton &&
-        globalContainer.querySelectorAll('.app-cmp-section').length > 1
-      ) {
-        removeButton.closest('.app-cmp-section')?.remove();
-        updateSectionNumbersAndButtons();
+      ) as HTMLButtonElement | null;
+      if (removeButton) {
+        const sections = globalContainer.querySelectorAll('.app-cmp-section');
+        if (sections.length > 1) {
+          const sectionToRemove = removeButton.closest(
+            '.app-cmp-section',
+          ) as HTMLElement | null;
+          if (sectionToRemove) {
+            sectionToRemove.remove();
+            updateSectionNumbersAndButtons();
+          }
+        }
       }
     });
 
+    assignInputComponent(sectionComponent);
     globalContainer.appendChild(sectionComponent);
     updateSectionNumbersAndButtons();
   };
 
-  const addSectionButton = document.querySelector<HTMLButtonElement>(
+  const addSectionButton = document.querySelector(
     '.app-cmd-add-section',
-  );
+  ) as HTMLButtonElement | null;
   if (addSectionButton) {
-    const controller = new AbortController();
-    addSectionButton.addEventListener('click', addSection, {
-      signal: controller.signal,
-    });
+    addSectionButton.addEventListener('click', addSection);
   }
 
-  globalContainer.addEventListener('click', (event) => {
-    const removeButton = (event.target as HTMLElement).closest(
+  globalContainer.addEventListener('click', (event: Event) => {
+    const removeButton = (event.target as Element).closest(
       '.app-cmd-remove-section',
-    );
-    if (
-      removeButton &&
-      globalContainer.querySelectorAll('.app-cmp-section').length > 1
-    ) {
-      removeButton.closest('.app-cmp-section')?.remove();
-      updateSectionNumbersAndButtons();
+    ) as HTMLButtonElement | null;
+    if (removeButton) {
+      const sections = globalContainer.querySelectorAll('.app-cmp-section');
+      if (sections.length > 1) {
+        const sectionToRemove = removeButton.closest(
+          '.app-cmp-section',
+        ) as HTMLElement | null;
+        if (sectionToRemove) {
+          sectionToRemove.remove();
+          updateSectionNumbersAndButtons();
+        }
+      }
     }
   });
 
-  if (!globalContainer.querySelector('.app-cmp-section')) {
+  const existingSections = globalContainer.querySelectorAll('.app-cmp-section');
+  if (existingSections.length === 0) {
     addSection();
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const globalContainer =
-    document.querySelector<HTMLElement>('.app-sections-list');
-
-  if (globalContainer) assignSectionComponent(globalContainer);
+  const globalContainer = document.querySelector(
+    '.app-sections-list',
+  ) as HTMLElement | null;
+  if (globalContainer) {
+    assignSectionComponent(globalContainer);
+  }
 });

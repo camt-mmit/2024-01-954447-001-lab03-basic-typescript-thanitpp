@@ -1,13 +1,22 @@
+'use strict';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const inputComponent = [
-    ...document.querySelectorAll<HTMLInputElement>(
+  const inputComponents = Array.from(
+    document.querySelectorAll<HTMLInputElement>(
       'input[type="number"].app-elem-input',
     ),
-  ];
-  const computerResult = () => {
-    const result = inputComponent.reduce((result, inputComponent) => {
-      return result + inputComponent.valueAsNumber;
-    }, 0);
+  );
+
+  const computeResult = (): void => {
+    const result = inputComponents.reduce(
+      (sum: number, input: HTMLInputElement) => {
+        const value = input.valueAsNumber;
+        // Check if it's a number
+        return sum + (isNaN(value) ? 0 : value);
+      },
+      0,
+    );
+
     const output = document.querySelector<HTMLOutputElement>(
       'output.app-elem-result',
     );
@@ -17,8 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('output.app-elem-result not found');
     }
   };
-  inputComponent.forEach((inputComponent) => {
-    inputComponent.addEventListener('change', computerResult);
+
+  inputComponents.forEach((input: HTMLInputElement) => {
+    input.addEventListener('change', computeResult);
   });
-  computerResult();
+
+  computeResult(); // Calculate initial value when page loads
 });
