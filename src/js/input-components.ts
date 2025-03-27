@@ -20,9 +20,9 @@ export function assignComponent(element: HTMLElement): void {
   }
 
   const updateInputComponents = (): void => {
-    const inputComponents = [
-      ...container.querySelectorAll('.app-cmp-input'),
-    ] as HTMLElement[];
+    const inputComponents = Array.from(
+      container.querySelectorAll<HTMLElement>('.app-cmp-input'),
+    );
     inputComponents.forEach((component: HTMLElement, index: number) => {
       const titleNoElements = component.querySelectorAll(
         '.app-elem-title-no',
@@ -30,7 +30,6 @@ export function assignComponent(element: HTMLElement): void {
       titleNoElements.forEach((titleNo: HTMLElement) => {
         titleNo.textContent = `${index + 1}`;
       });
-
       const removeButtons = component.querySelectorAll(
         '.app-cmd-remove-input',
       ) as NodeListOf<HTMLButtonElement>;
@@ -41,9 +40,11 @@ export function assignComponent(element: HTMLElement): void {
   };
 
   const calculateResult = (): void => {
-    const inputs = [
-      ...container.querySelectorAll('input[type="number"].app-elem-input'),
-    ] as HTMLInputElement[];
+    const inputs = Array.from(
+      container.querySelectorAll<HTMLInputElement>(
+        'input[type="number"].app-elem-input',
+      ),
+    );
     console.log(`Found ${inputs.length} input(s) for calculation.`);
     if (inputs.length === 0) {
       console.warn('No input elements found for calculation.');

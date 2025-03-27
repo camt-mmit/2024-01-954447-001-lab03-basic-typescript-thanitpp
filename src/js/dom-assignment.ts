@@ -15,9 +15,9 @@ export function assignSectionComponent(globalContainer: HTMLElement): void {
   }
 
   const updateSectionNumbersAndButtons = (): void => {
-    const sections = [
-      ...globalContainer.querySelectorAll('.app-cmp-section'),
-    ] as HTMLElement[];
+    const sections = Array.from(
+      globalContainer.querySelectorAll<HTMLElement>('.app-cmp-section'),
+    );
     sections.forEach((section: HTMLElement, index: number) => {
       const sectionNumberElement = section.querySelector(
         '.section-number',
